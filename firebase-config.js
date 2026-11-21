@@ -7,4 +7,4 @@ export const firebaseConfig = {
   messagingSenderId: "787400902004",
   appId: "1:787400902004:web:f14a97759ba5f739695821"
 };
-export const appCheckSiteKey = "";
+export const appCheckSiteKey = "6LebxiouAAAAAEpH9ZmTWGTZasKvDpwPFk0CT-h7";
