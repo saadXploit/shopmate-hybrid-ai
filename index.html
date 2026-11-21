@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopMate: private AI for small shops</title>
+  <meta name="description" content="ShopMate writes customer replies, product descriptions and payment reminders for small businesses. It runs on-device with Gemini Nano when it can and falls back to the cloud with Firebase AI Logic.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <span class="logo">S</span>
+      <div>
+        <h1>ShopMate</h1>
+        <p class="tag">Private AI assistant for small shops</p>
+      </div>
+    </div>
+    <div class="status" id="status">
+      <span class="dot" id="statusDot"></span>
+      <span id="statusText">Checking on-device AI…</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="card mode-card">
+      <div>
+        <h2>Where should the AI run?</h2>
+        <p class="muted">On-device keeps customer data on this computer, works offline and costs nothing per request. Cloud works on any device.</p>
+      </div>
+      <div class="mode-row">
+        <label><input type="radio" name="mode" value="prefer_on_device" checked> Prefer on-device</label>
+        <label><input type="radio" name="mode" value="only_on_device"> On-device only</label>
+        <label><input type="radio" name="mode" value="only_in_cloud"> Cloud only</label>
+      </div>
+      <button class="secondary" id="downloadBtn" type="button">Prepare on-device model</button>
+      <div class="progress" id="progressWrap" hidden><div id="progressBar"></div></div>
+    </section>
+
+    <section class="card">
+      <label class="field">Your shop (used in every answer)
+        <input id="shop" placeholder="e.g. Amina's Fabrics, Ilorin. Open 9am–7pm, delivery in Kwara, pay by transfer or card">
+      </label>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="reply" role="tab">Reply to customer</button>
+      <button class="tab" data-tab="product" role="tab">Product description</button>
+      <button class="tab" data-tab="invoice" role="tab">Payment reminder</button>
+    </nav>
+
+    <section class="card panel" id="panel-reply">
+      <label class="field">Customer message
+        <textarea id="customerMsg" rows="4" placeholder="Good evening, do you still have the blue ankara? How much and can you deliver to Malete tomorrow?"></textarea>
+      </label>
+      <label class="field">Facts to include (optional)
+        <input id="replyFacts" placeholder="Blue ankara: ₦8,500 per 6 yards, 3 left. Delivery ₦1,500, next day.">
+      </label>
+      <label class="field">Tone
+        <select id="replyTone"><option>Warm and friendly</option><option>Short and professional</option><option>Pidgin-friendly, respectful</option></select>
+      </label>
+      <button class="primary" data-run="reply">Write reply</button>
+    </section>
+
+    <section class="card panel" id="panel-product" hidden>
+      <label class="field">Product name
+        <input id="productName" placeholder="Handmade leather slides">
+      </label>
+      <label class="field">Key details
+        <input id="productDetails" placeholder="Genuine leather, sizes 39–45, black and brown, made in Kano">
+      </label>
+      <label class="field">Product photo (optional, JPEG or PNG)
+        <input id="productImage" type="file" accept="image/jpeg,image/png">
+      </label>
+      <img id="productPreview" class="preview" alt="" hidden>
+      <button class="primary" data-run="product">Write description</button>
+    </section>
+
+    <section class="card panel" id="panel-invoice" hidden>
+      <div class="grid2">
+        <label class="field">Customer name <input id="invName" placeholder="Mr. Tunde"></label>
+        <label class="field">Amount owed <input id="invAmount" placeholder="₦45,000"></label>
+        <label class="field">What it was for <input id="invFor" placeholder="10 cartons of bottled water"></label>
+        <label class="field">Days overdue <input id="invDays" type="number" min="0" placeholder="7"></label>
+      </div>
+      <label class="field">Reminder stage
+        <select id="invStage"><option>Gentle first reminder</option><option>Firm second reminder</option><option>Final notice, still polite</option></select>
+      </label>
+      <button class="primary" data-run="invoice">Write reminder</button>
+    </section>
+
+    <section class="card output-card" id="outputCard" hidden>
+      <div class="output-head">
+        <h2>Result</h2>
+        <span class="badge" id="sourceBadge"></span>
+      </div>
+      <div id="output" class="output"></div>
+      <div class="output-actions">
+        <button class="secondary" id="copyBtn" type="button">Copy</button>
+        <a class="secondary" id="waBtn" target="_blank" rel="noopener">Open in WhatsApp</a>
+        <span class="muted" id="timing"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Session stats</h2>
+      <div class="stats">
+        <div><b id="statDevice">0</b><span>on-device</span></div>
+        <div><b id="statCloud">0</b><span>cloud</span></div>
+        <div><b id="statSaved">0</b><span>requests kept off the cloud</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Built with Firebase AI Logic (hybrid on-device and cloud) and App Check · Open source (Apache-2.0) ·
+    by <a href="https://x.com/saad_abdulgafar" target="_blank" rel="noopener">@saad_abdulgafar</a>, SAAD AI Automation
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
